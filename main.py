@@ -1,6 +1,6 @@
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
-from datetime import datetime
+
 from models import create_tables, Publisher, Book, Shop, Stock, Sale
 
 DSN = 'postgresql://postgres:hOLODNo12345!@localhost:5432/DZ_PSQL'
@@ -82,28 +82,6 @@ sale15 = Sale(price=1000, data_sale='01-01-2023', stock=stock15)
 session.add_all([sale1, sale2, sale3, sale4, sale5, sale6, sale7, sale8, sale9, sale10, sale11, sale12, sale13, sale14, sale15])
 session.commit()
 
-# for c in session.query(Publisher).filter(Publisher.name.like('%Пушкин%')).all():
-#     print(c)
-
-# c_r = input('Введите имя автора:')
-
-# c_r = input('Введите имя автора:')
-# for c in session.query(Publisher).join(Book.publisher).all():
-#     print(c)
-
-# session.query(Publisher).join(Book.publisher).all()
-# session.query(Publisher).join(Stock.publisher).all()
-# session.query(Publisher).join(Shop.publisher).all()
-# session.query(Publisher).join(Sale.publisherч).all()
-
-# session.query(
-#     Book.title,
-#     Shop.name,
-#     Stock.count,
-#     Sale.data_sale
-# ).join(Stock).join(Shop).join(Sale).filter(...).all()
-#
-# join(Stock.book).join(Stock.shop).join(Sale.stock).filter(Publisher.name == c_r)
 
 def custom():
     c_r = str(input('Введите имя автора: '))
@@ -112,8 +90,8 @@ def custom():
         Shop.name,
         Sale.price,
         Sale.data_sale
-    ).join(Book).join(Shop).join(Sale).filter(Publisher.name == c_r).all():
-        print(r)
+    ).join(Stock.book).join(Shop).join(Sale).join(Publisher).filter(Publisher.name == c_r).all():
+        print(*r, sep=' | ')
 
 print(custom())
 
